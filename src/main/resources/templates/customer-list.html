@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot - Hibernate</title>
+    <style>
+        table, th, td, tr {
+            border: 1px solid black;
+        }
+        td {
+            padding-right: 30px;
+        }
+    </style>
+</head>
+<body>
+<h1>List Customer:</h1>
+<a th:href="@{/customer-save}">Add Customer</a>
+<form action="/filter-address-dn" method="get">
+    <label for="address">Địa chỉ:</label>
+    <input type="text" id="address" name="address">
+    <button type="submit">Lọc</button>
+</form>
+<form action="/search" method="get">
+    <label for="name">Tìm kiếm:</label>
+    <input type="text" id="name" name="name">
+    <button type="submit">Tìm</button>
+</form>
+
+<br />
+<br />
+
+<table th:if="${not #lists.isEmpty(customers)}">
+    <!-- Hiển thị danh sách khách hàng tại đây -->
+</table>
+
+<!-- Hiển thị thông báo nếu không có kết quả -->
+<div th:if="${#lists.isEmpty(customers)}">
+    <p th:text="${noResultsMessage}"></p>
+</div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>View</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="customer : ${listCustomer}">
+        <tr>
+            <td><p th:text="${customer.id}"></p></td>
+            <td><p th:text="${customer.name}"></p></td>
+            <td><p th:text="${customer.address}"></p></td>
+            <td><a th:href="@{/customer-view/} + ${customer.id}">View</a></td>
+            <td><a th:href="@{/customer-update/} + ${customer.id}">Edit</a></td>
+            <td><a th:href="@{/customerDelete/} + ${customer.id}">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
